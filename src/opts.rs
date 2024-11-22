@@ -1,8 +1,16 @@
-use clap::Parser;
+use clap::{Args, Parser};
+use clap_cargo::style::CLAP_STYLING;
 use std::path::PathBuf;
 
-#[derive(Parser, Debug)]
-#[command(version, about)]
+#[derive(Parser)]
+#[command(name = "cargo")]
+#[command(bin_name = "cargo")]
+#[command(styles = CLAP_STYLING)]
+pub enum CargoCli {
+    Mkdocs(Opts),
+}
+
+#[derive(Args)]
 pub struct Opts {
     #[arg(short = 'p', long)]
     pub document_private_items: bool,
@@ -28,6 +36,8 @@ pub struct Opts {
 
 impl Default for Opts {
     fn default() -> Self {
-        Self::parse()
+        match CargoCli::parse() {
+            CargoCli::Mkdocs(opts) => opts,
+        }
     }
 }

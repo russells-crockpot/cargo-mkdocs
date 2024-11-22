@@ -39,6 +39,7 @@ fn main() -> Result<()> {
     pkgs.into_iter().for_each(|p| {
         command.arg("-p").arg(p);
     });
+    println!("Generating documentation");
     let output = command.output()?;
     if !output.status.success() {
         if let Ok(stderr_text) = String::from_utf8(output.stderr) {
